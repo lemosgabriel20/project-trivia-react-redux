@@ -1,11 +1,19 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
-export default class Login extends Component {
+class Login extends Component {
   state = {
     email: '',
     name: '',
     isDisabled: true,
   };
+
+  componentDidMount() {
+    if (localStorage.getItem('token') === null) {
+      localStorage.setItem('token', JSON.stringify(''));
+    }
+  }
 
   handleInput = (evt) => {
     const type = evt.target.id;
@@ -18,6 +26,18 @@ export default class Login extends Component {
         this.setState({ isDisabled: true });
       }
     });
+  };
+
+  handleClick = async () => {
+    const { history } = this.props;
+    const triviaURL = 'https://opentdb.com/api_token.php?command=request';
+    await fetch(triviaURL)
+      .then((response) => response.json())
+      .then((data) => {
+        // Salva token no localStorage
+        localStorage.setItem('token', data.token);
+        history.push('/game');
+      });
   };
 
   render() {
@@ -43,6 +63,7 @@ export default class Login extends Component {
         <button
           data-testid="btn-play"
           disabled={ isDisabled }
+          onClick={ this.handleClick }
         >
           Play
         </button>
@@ -50,3 +71,9 @@ export default class Login extends Component {
     );
   }
 }
+
+Login.propTypes = {
+  dispatch: PropTypes.func,
+}.isRequired;
+
+export default connect()(Login);
