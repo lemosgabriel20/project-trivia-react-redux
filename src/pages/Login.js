@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import md5 from 'crypto-js/md5';
+import { saveLogin } from '../redux/actions';
 
 class Login extends Component {
   state = {
@@ -29,7 +31,8 @@ class Login extends Component {
   };
 
   handleClick = async () => {
-    const { history } = this.props;
+    const { dispatch, history } = this.props;
+    const { name, email } = this.state;
     const triviaURL = 'https://opentdb.com/api_token.php?command=request';
     await fetch(triviaURL)
       .then((response) => response.json())
@@ -38,6 +41,9 @@ class Login extends Component {
         localStorage.setItem('token', data.token);
         history.push('/game');
       });
+    const hash = md5(email).toString();
+    const image = `https://www.gravatar.com/avatar/${hash}`;
+    dispatch(saveLogin({ name, email, image }));
   };
 
   render() {

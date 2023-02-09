@@ -3,10 +3,9 @@ import { ADD_LOGIN_INFO } from '../actions/actionType';
 const INITIAL_STATE = {
   name: '',
   assertions: '',
-  score: '',
+  score: 0,
   gravatarEmail: '',
-  ranking: [],
-  token: '',
+  gravatarImage: '',
 };
 
 const player = (state = INITIAL_STATE, action) => {
@@ -16,6 +15,7 @@ const player = (state = INITIAL_STATE, action) => {
       ...state,
       name: action.payload.name,
       gravatarEmail: action.payload.email,
+      gravatarImage: action.payload.image,
     };
   default:
     return state;
