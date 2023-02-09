@@ -42,6 +42,7 @@ class Login extends Component {
 
   render() {
     const { isDisabled } = this.state;
+    const { history } = this.props;
     return (
       <div>
         <input
@@ -66,6 +67,12 @@ class Login extends Component {
           onClick={ this.handleClick }
         >
           Play
+        </button>
+        <button
+          data-testid="btn-settings"
+          onClick={ () => history.push('/settings') }
+        >
+          Configurações
         </button>
       </div>
     );
