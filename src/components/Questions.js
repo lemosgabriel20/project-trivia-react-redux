@@ -1,7 +1,9 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { updateScore } from '../redux/actions';
 
-export default class Questions extends Component {
+class Questions extends Component {
   state = {
     showAnswer: false,
     answersSorted: [],
@@ -30,8 +32,19 @@ export default class Questions extends Component {
     }, second);
   }
 
-  handleClick = () => {
+  handleClick = (evt) => {
     this.setState({ showAnswer: true });
+    const { difficulty, dispatch } = this.props;
+    const { timer } = this.state;
+    const { id } = evt.target;
+    if (id === 'correct-answer') {
+      const factor = 10;
+      const diffString = {
+        hard: 3, medium: 2, easy: 1,
+      };
+      const score = factor + (timer * diffString[difficulty]);
+      dispatch(updateScore(score));
+    }
   };
 
   render() {
@@ -71,6 +84,10 @@ export default class Questions extends Component {
   }
 }
 
+const mapStateToProps = (state) => ({
+  score: state.player.score,
+});
+
 Questions.propTypes = {
   category: PropTypes.any,
   correctAnswer: PropTypes.any,
@@ -78,3 +95,5 @@ Questions.propTypes = {
   onClick: PropTypes.any,
   question: PropTypes.any,
 }.isRequired;
+
+export default connect(mapStateToProps)(Questions);

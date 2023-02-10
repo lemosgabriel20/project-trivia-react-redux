@@ -44,6 +44,7 @@ export default class Game extends Component {
       questionComponent = (<Questions
         category={ allQuestions[index].category }
         question={ allQuestions[index].question }
+        difficulty={ allQuestions[index].difficulty }
         correctAnswer={ allQuestions[index].correct_answer }
         incorrectAnswers={ allQuestions[index].incorrect_answers }
         // onClick={ this.changeQuestion }
