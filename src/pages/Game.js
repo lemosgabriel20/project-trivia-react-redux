@@ -1,9 +1,10 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import Header from '../components/Header';
 import Questions from '../components/Questions';
 
-export default class Game extends Component {
+class Game extends Component {
   state = {
     allQuestions: [],
     index: 0,
@@ -30,7 +31,7 @@ export default class Game extends Component {
 
   changeQuestion = () => {
     const { index } = this.state;
-    const { history } = this.props;
+    const { history, name, score, picture } = this.props;
     this.setState((prevState) => {
       const i = 1;
       return {
@@ -40,6 +41,13 @@ export default class Game extends Component {
     this.setState({ showNext: false });
     const questions = 5;
     if (index === questions - 1) {
+      const previousRanking = JSON.parse(localStorage.getItem('ranking'));
+      const player = { name, score, picture };
+      const newRanking = [
+        ...previousRanking,
+        player,
+      ];
+      localStorage.setItem('ranking', JSON.stringify(newRanking));
       history.push('/feedback');
     }
   };
@@ -77,6 +85,17 @@ export default class Game extends Component {
   }
 }
 
+const mapStateToProps = ({ player }) => ({
+  name: player.name,
+  score: player.score,
+  picture: player.gravatarImage,
+});
+
 Game.propTypes = {
+  name: PropTypes.string,
+  score: PropTypes.number,
+  image: PropTypes.string,
   history: PropTypes.func,
 }.isRequired;
+
+export default connect(mapStateToProps)(Game);

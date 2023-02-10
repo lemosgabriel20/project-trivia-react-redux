@@ -4,6 +4,15 @@ import { connect } from 'react-redux';
 import { clearState } from '../redux/actions';
 
 class Ranking extends Component {
+  state = {
+    ranking: JSON.parse(localStorage.getItem('ranking')),
+  };
+
+  componentDidMount() {
+    const { ranking } = this.state;
+    this.setState({ ranking: ranking.sort((a, b) => b.score - a.score) });
+  }
+
   handleClick = () => {
     const { history, dispatch } = this.props;
     history.push('/');
@@ -11,9 +20,30 @@ class Ranking extends Component {
   };
 
   render() {
+    const { ranking } = this.state;
     return (
       <div>
         <h1 data-testid="ranking-title">Ranking</h1>
+        {
+          ranking.map((player, index) => (
+            <div key={ index }>
+              <p
+                data-testid={ `player-name-${index}` }
+              >
+                { player.name }
+              </p>
+              <p
+                data-testid={ `player-score-${index}` }
+              >
+                { player.score }
+              </p>
+              <img
+                src={ player.picture }
+                alt="Gravatar profile"
+              />
+            </div>
+          ))
+        }
         <button
           data-testid="btn-go-home"
           onClick={ this.handleClick }

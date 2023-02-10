@@ -15,6 +15,9 @@ class Login extends Component {
     if (localStorage.getItem('token') === null) {
       localStorage.setItem('token', JSON.stringify(''));
     }
+    if (localStorage.getItem('ranking') === null) {
+      localStorage.setItem('ranking', JSON.stringify([]));
+    }
   }
 
   handleInput = (evt) => {

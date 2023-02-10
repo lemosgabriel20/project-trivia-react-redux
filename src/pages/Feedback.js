@@ -15,7 +15,6 @@ class Feedback extends Component {
   render() {
     const { assertions, score, history } = this.props;
     const questions = 3;
-    console.log(assertions);
     return (
       <div>
         <Header />
@@ -37,7 +36,7 @@ class Feedback extends Component {
           data-testid="btn-ranking"
           onClick={ () => history.push('/ranking') }
         >
-          Play Again
+          Ranking
         </button>
       </div>
     );
