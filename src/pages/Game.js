@@ -29,6 +29,8 @@ export default class Game extends Component {
   };
 
   changeQuestion = () => {
+    const { index } = this.state;
+    const { history } = this.props;
     this.setState((prevState) => {
       const i = 1;
       return {
@@ -36,8 +38,10 @@ export default class Game extends Component {
       };
     });
     this.setState({ showNext: false });
-    // if index is 5
-    // history.push('/feedback')
+    const questions = 5;
+    if (index === questions - 1) {
+      history.push('/feedback');
+    }
   };
 
   showNextButton = () => {

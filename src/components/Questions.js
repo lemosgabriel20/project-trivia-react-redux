@@ -34,7 +34,7 @@ class Questions extends Component {
 
   handleClick = (evt) => {
     this.setState({ showAnswer: true });
-    const { difficulty, dispatch, showNextButton } = this.props;
+    const { difficulty, dispatch, showNextButton, score } = this.props;
     const { timer } = this.state;
     const { id } = evt.target;
     if (id === 'correct-answer') {
@@ -42,8 +42,8 @@ class Questions extends Component {
       const diffString = {
         hard: 3, medium: 2, easy: 1,
       };
-      const score = factor + (timer * diffString[difficulty]);
-      dispatch(updateScore(score));
+      const tempScore = (factor + (timer * diffString[difficulty])) + score;
+      dispatch(updateScore(tempScore));
     }
     showNextButton();
   };
