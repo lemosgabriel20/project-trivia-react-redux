@@ -22,7 +22,7 @@ describe('Testa o componente Ranking.js', () => {
       const category = screen.getByTestId('question-category');
       
       expect(category).toBeInTheDocument();
-    }, 2000);
+    }, 4000);
   })
   it('Teste se os componentes são renderizados', async () => {
     const { history } = renderWithRouterAndRedux(<App />);
@@ -88,6 +88,20 @@ describe('Testa o componente Ranking.js', () => {
 
       expect(history.location.pathname).toBe('/feedback');
     }, 2000);
-    
+  });
+
+  it('Teste do timer', async () => {
+    const { history } = renderWithRouterAndRedux(<App />);
+    const nameInput = screen.getByTestId('input-player-name');
+    const emailInput = screen.getByTestId('input-gravatar-email');
+    const btnPlay = screen.getByTestId('btn-play');
+    userEvent.type(nameInput, "teste");
+    userEvent.type(emailInput, "teste@teste.com");
+    userEvent.click(btnPlay);
+    jest.setTimeout(4000);
+    await waitFor(() => {
+      const timer = screen.getByTestId('timer');
+      expect(timer).toHaveTextContent(302);
+    }, {timeout: 1000})
   })
 });

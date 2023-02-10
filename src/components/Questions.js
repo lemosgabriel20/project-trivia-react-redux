@@ -55,7 +55,7 @@ class Questions extends Component {
     return (
       <div>
         <h1 data-testid="question-category">{ category }</h1>
-        <h2>{ timer }</h2>
+        <h2 data-testid="timer">{ timer }</h2>
         <h3 data-testid="question-text">{ question }</h3>
         <div data-testid="answer-options">
           {
