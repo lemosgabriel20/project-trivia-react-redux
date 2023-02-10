@@ -22,7 +22,6 @@ class Game extends Component {
       .then((response) => response.json())
       .then((data) => {
         if (data.response_code !== 0) {
-          localStorage.setItem('token', '');
           history.push('/');
         }
         this.setState({ allQuestions: data.results });

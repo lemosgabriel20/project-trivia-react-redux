@@ -2,10 +2,8 @@ import React from 'react';
 import { screen, waitFor } from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
 import userEvent from '@testing-library/user-event';
-import Ranking from '../pages/Ranking';
 import App from '../App';
 import { renderWithRouterAndRedux } from './helpers/renderWithRouterAndRedux';
-import { wait } from '@testing-library/user-event/dist/utils';
 
 describe('Testa o componente Ranking.js', () => {
   it('Teste se os componentes são renderizados', async () => {
