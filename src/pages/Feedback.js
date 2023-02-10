@@ -5,7 +5,7 @@ import Header from '../components/Header';
 import { clearState } from '../redux/actions';
 
 class Feedback extends Component {
-  handleClick = () => {
+  handlePlayAgain = () => {
     // resetar redux se necessario aqui
     const { history, dispatch } = this.props;
     history.push('/');
@@ -13,7 +13,7 @@ class Feedback extends Component {
   };
 
   render() {
-    const { assertions, score } = this.props;
+    const { assertions, score, history } = this.props;
     const questions = 3;
     console.log(assertions);
     return (
@@ -29,7 +29,13 @@ class Feedback extends Component {
         <h2 data-testid="feedback-total-question">{ assertions }</h2>
         <button
           data-testid="btn-play-again"
-          onClick={ this.handleClick }
+          onClick={ this.handlePlayAgain }
+        >
+          Play Again
+        </button>
+        <button
+          data-testid="btn-ranking"
+          onClick={ () => history.push('/ranking') }
         >
           Play Again
         </button>
