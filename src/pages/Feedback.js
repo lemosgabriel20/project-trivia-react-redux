@@ -2,8 +2,16 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
+import { clearState } from '../redux/actions';
 
 class Feedback extends Component {
+  handleClick = () => {
+    // resetar redux se necessario aqui
+    const { history, dispatch } = this.props;
+    history.push('/');
+    dispatch(clearState());
+  };
+
   render() {
     const { assertions, score } = this.props;
     const questions = 3;
@@ -19,6 +27,12 @@ class Feedback extends Component {
         </h2>
         <h2 data-testid="feedback-total-score">{ score }</h2>
         <h2 data-testid="feedback-total-question">{ assertions }</h2>
+        <button
+          data-testid="btn-play-again"
+          onClick={ this.handleClick }
+        >
+          Play Again
+        </button>
       </div>
     );
   }

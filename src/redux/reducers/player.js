@@ -1,4 +1,5 @@
-import { ADD_LOGIN_INFO, UPDATE_SCORE, UPDATE_ASSERTS } from '../actions/actionType';
+import { ADD_LOGIN_INFO, UPDATE_SCORE, UPDATE_ASSERTS,
+  CLEAR_STATE } from '../actions/actionType';
 
 const INITIAL_STATE = {
   name: '',
@@ -26,6 +27,12 @@ const player = (state = INITIAL_STATE, action) => {
     return {
       ...state,
       assertions: state.assertions + 1,
+    };
+  case CLEAR_STATE:
+    return {
+      ...state,
+      score: 0,
+      assertions: 0,
     };
   default:
     return state;
