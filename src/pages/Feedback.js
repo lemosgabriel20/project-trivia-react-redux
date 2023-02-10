@@ -15,14 +15,19 @@ class Feedback extends Component {
   render() {
     const { assertions, score, history } = this.props;
     const questions = 3;
+    const message = (assertions < questions) ? 'Could be better...' : 'Well Done!';
     return (
       <div>
         <Header />
-        <h1>Feedback</h1>
+        <h1
+          data-testid="header-text"
+        >
+          Feedback
+        </h1>
         <h2
           data-testid="feedback-text"
         >
-          { assertions < questions ? 'Could be better...' : 'Well Done!' }
+          { message }
         </h2>
         <h2 data-testid="feedback-total-score">{ score }</h2>
         <h2 data-testid="feedback-total-question">{ assertions }</h2>
