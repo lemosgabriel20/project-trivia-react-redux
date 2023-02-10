@@ -47,7 +47,8 @@ class Game extends Component {
         ...previousRanking,
         player,
       ];
-      localStorage.setItem('ranking', JSON.stringify(newRanking));
+      const sortedRanking = newRanking.sort((a, b) => b.score - a.score);
+      localStorage.setItem('ranking', JSON.stringify(sortedRanking));
       history.push('/feedback');
     }
   };
