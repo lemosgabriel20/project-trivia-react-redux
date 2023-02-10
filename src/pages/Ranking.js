@@ -8,11 +8,6 @@ class Ranking extends Component {
     ranking: JSON.parse(localStorage.getItem('ranking')),
   };
 
-  componentDidMount() {
-    const { ranking } = this.state;
-    this.setState({ ranking: ranking.sort((a, b) => b.score - a.score) });
-  }
-
   handleClick = () => {
     const { history, dispatch } = this.props;
     history.push('/');

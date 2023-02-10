@@ -12,9 +12,7 @@ class Login extends Component {
   };
 
   componentDidMount() {
-    if (localStorage.getItem('token') === null) {
-      localStorage.setItem('token', JSON.stringify(''));
-    }
+    localStorage.setItem('token', JSON.stringify(''));
     if (localStorage.getItem('ranking') === null) {
       localStorage.setItem('ranking', JSON.stringify([]));
     }

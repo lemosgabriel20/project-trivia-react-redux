@@ -2,11 +2,9 @@ import React from 'react';
 import { screen, waitFor } from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
 import userEvent from '@testing-library/user-event';
-import Login from '../pages/Login';
 import Feedback from '../pages/Feedback';
 import App from '../App';
 import { renderWithRouterAndRedux } from './helpers/renderWithRouterAndRedux';
-import { wait } from '@testing-library/user-event/dist/utils';
 
 describe('Teste o componente Feedback.js', () => {
   it('Testa se os componentes renderizam na tela', () => {
