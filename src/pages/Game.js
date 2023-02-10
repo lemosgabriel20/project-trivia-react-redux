@@ -7,6 +7,7 @@ export default class Game extends Component {
   state = {
     allQuestions: [],
     index: 0,
+    showNext: false,
   };
 
   componentDidMount() {
@@ -27,34 +28,46 @@ export default class Game extends Component {
       });
   };
 
-  /* changeQuestion = () => {
+  changeQuestion = () => {
     this.setState((prevState) => {
       const i = 1;
       return {
-        index: prevState + i,
+        index: prevState.index + i,
       };
     });
-  }; */
+    this.setState({ showNext: false });
+    // if index is 5
+    // history.push('/feedback')
+  };
+
+  showNextButton = () => {
+    this.setState({ showNext: true });
+  };
 
   render() {
-    const { allQuestions, index } = this.state;
-    let questionComponent = null;
-    if (allQuestions[index] !== undefined) {
-      console.log(allQuestions[index]);
-      questionComponent = (<Questions
-        category={ allQuestions[index].category }
-        question={ allQuestions[index].question }
-        difficulty={ allQuestions[index].difficulty }
-        correctAnswer={ allQuestions[index].correct_answer }
-        incorrectAnswers={ allQuestions[index].incorrect_answers }
-        // onClick={ this.changeQuestion }
-      />);
-    }
+    const { allQuestions, index, showNext } = this.state;
+    const questionComponent = allQuestions.map((object, i) => {
+      const question = object;
+      return (
+        <Questions
+          key={ i }
+          category={ question.category }
+          question={ question.question }
+          difficulty={ question.difficulty }
+          correctAnswer={ question.correct_answer }
+          incorrectAnswers={ question.incorrect_answers }
+          showNextButton={ this.showNextButton }
+        />
+      );
+    });
 
     return (
       <div>
         <Header />
-        { questionComponent }
+        { questionComponent[index] }
+        { showNext
+          ? (<button data-testid="btn-next" onClick={ this.changeQuestion }>Next</button>)
+          : null}
       </div>
     );
   }
