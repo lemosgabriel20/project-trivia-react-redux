@@ -5,6 +5,8 @@ export default class Questions extends Component {
   state = {
     showAnswer: false,
     answersSorted: [],
+    hasTime: true,
+    timer: 30,
   };
 
   componentDidMount() {
@@ -14,6 +16,18 @@ export default class Questions extends Component {
     this.setState({
       answersSorted: answersUnsorted.sort(() => Math.random() - randomNumber),
     });
+    const second = 1000;
+    this.myTimer = setInterval(() => {
+      this.setState(({ timer }) => ({
+        timer: timer - 1,
+      }), () => {
+        const { timer } = this.state;
+        if (timer === 0) {
+          this.setState({ hasTime: false });
+          clearInterval(this.myTimer);
+        }
+      });
+    }, second);
   }
 
   handleClick = () => {
@@ -22,10 +36,11 @@ export default class Questions extends Component {
 
   render() {
     const { category, question, correctAnswer /* oClc */ } = this.props;
-    const { showAnswer, answersSorted } = this.state;
+    const { showAnswer, answersSorted, hasTime, timer } = this.state;
     return (
       <div>
         <h1 data-testid="question-category">{ category }</h1>
+        <h2>{ timer }</h2>
         <h3 data-testid="question-text">{ question }</h3>
         <div data-testid="answer-options">
           {
@@ -42,6 +57,7 @@ export default class Questions extends Component {
                   className={ (showAnswer) ? answerClass : '' }
                   id={ testId }
                   data-testid={ testId }
+                  disabled={ !hasTime }
                   onClick={ this.handleClick }
                 >
                   { answer }
