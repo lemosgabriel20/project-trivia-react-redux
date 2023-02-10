@@ -1,25 +1,79 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { updateScore } from '../redux/actions';
 
-export default class Questions extends Component {
-  render() {
-    const { category, question, correctAnswer, incorrectAnswers /* oClc */ } = this.props;
+class Questions extends Component {
+  state = {
+    showAnswer: false,
+    answersSorted: [],
+    hasTime: true,
+    timer: 30,
+  };
+
+  componentDidMount() {
+    const { correctAnswer, incorrectAnswers } = this.props;
     const randomNumber = 0.5;
     const answersUnsorted = [...incorrectAnswers, correctAnswer];
-    const answersSorted = answersUnsorted.sort(() => Math.random() - randomNumber);
+    this.setState({
+      answersSorted: answersUnsorted.sort(() => Math.random() - randomNumber),
+    });
+    const second = 1000;
+    this.myTimer = setInterval(() => {
+      this.setState(({ timer }) => ({
+        timer: timer - 1,
+      }), () => {
+        const { timer } = this.state;
+        if (timer === 0) {
+          this.setState({ hasTime: false });
+          clearInterval(this.myTimer);
+        }
+      });
+    }, second);
+  }
+
+  handleClick = (evt) => {
+    this.setState({ showAnswer: true });
+    const { difficulty, dispatch, showNextButton, score } = this.props;
+    const { timer } = this.state;
+    const { id } = evt.target;
+    if (id === 'correct-answer') {
+      const factor = 10;
+      const diffString = {
+        hard: 3, medium: 2, easy: 1,
+      };
+      const tempScore = (factor + (timer * diffString[difficulty])) + score;
+      dispatch(updateScore(tempScore));
+    }
+    showNextButton();
+  };
+
+  render() {
+    const { category, question, correctAnswer } = this.props;
+    const { showAnswer, answersSorted, hasTime, timer } = this.state;
+    console.log(answersSorted);
     return (
       <div>
         <h1 data-testid="question-category">{ category }</h1>
+        <h2>{ timer }</h2>
         <h3 data-testid="question-text">{ question }</h3>
         <div data-testid="answer-options">
           {
             answersSorted.map((answer, index) => {
               let testId = `wrong-answer-${index}`;
-              if (answer === correctAnswer) testId = 'correct-answer';
+              let answerClass = 'incorrectAnswers';
+              if (answer === correctAnswer) {
+                testId = 'correct-answer';
+                answerClass = 'correctAnswer';
+              }
               return (
                 <button
                   key={ index }
+                  className={ (showAnswer) ? answerClass : '' }
+                  id={ testId }
                   data-testid={ testId }
+                  disabled={ !hasTime }
+                  onClick={ this.handleClick }
                 >
                   { answer }
                 </button>
@@ -32,6 +86,10 @@ export default class Questions extends Component {
   }
 }
 
+const mapStateToProps = (state) => ({
+  score: state.player.score,
+});
+
 Questions.propTypes = {
   category: PropTypes.any,
   correctAnswer: PropTypes.any,
@@ -39,3 +97,5 @@ Questions.propTypes = {
   onClick: PropTypes.any,
   question: PropTypes.any,
 }.isRequired;
+
+export default connect(mapStateToProps)(Questions);

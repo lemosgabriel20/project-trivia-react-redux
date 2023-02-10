@@ -1,4 +1,4 @@
-import { ADD_LOGIN_INFO } from '../actions/actionType';
+import { ADD_LOGIN_INFO, UPDATE_SCORE } from '../actions/actionType';
 
 const INITIAL_STATE = {
   name: '',
@@ -16,6 +16,11 @@ const player = (state = INITIAL_STATE, action) => {
       name: action.payload.name,
       gravatarEmail: action.payload.email,
       gravatarImage: action.payload.image,
+    };
+  case UPDATE_SCORE:
+    return {
+      ...state,
+      score: action.payload,
     };
   default:
     return state;
