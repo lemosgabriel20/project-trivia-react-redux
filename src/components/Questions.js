@@ -2,11 +2,27 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
 export default class Questions extends Component {
-  render() {
-    const { category, question, correctAnswer, incorrectAnswers /* oClc */ } = this.props;
+  state = {
+    showAnswer: false,
+    answersSorted: [],
+  };
+
+  componentDidMount() {
+    const { correctAnswer, incorrectAnswers } = this.props;
     const randomNumber = 0.5;
     const answersUnsorted = [...incorrectAnswers, correctAnswer];
-    const answersSorted = answersUnsorted.sort(() => Math.random() - randomNumber);
+    this.setState({
+      answersSorted: answersUnsorted.sort(() => Math.random() - randomNumber),
+    });
+  }
+
+  handleClick = () => {
+    this.setState({ showAnswer: true });
+  };
+
+  render() {
+    const { category, question, correctAnswer /* oClc */ } = this.props;
+    const { showAnswer, answersSorted } = this.state;
     return (
       <div>
         <h1 data-testid="question-category">{ category }</h1>
@@ -15,11 +31,18 @@ export default class Questions extends Component {
           {
             answersSorted.map((answer, index) => {
               let testId = `wrong-answer-${index}`;
-              if (answer === correctAnswer) testId = 'correct-answer';
+              let answerClass = 'incorrectAnswers';
+              if (answer === correctAnswer) {
+                testId = 'correct-answer';
+                answerClass = 'correctAnswer';
+              }
               return (
                 <button
                   key={ index }
+                  className={ (showAnswer) ? answerClass : '' }
+                  id={ testId }
                   data-testid={ testId }
+                  onClick={ this.handleClick }
                 >
                   { answer }
                 </button>
