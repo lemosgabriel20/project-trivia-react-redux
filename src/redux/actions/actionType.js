@@ -1,2 +1,4 @@
 export const ADD_LOGIN_INFO = 'ADD_LOGIN_INFO';
 export const UPDATE_SCORE = 'UPDATE_SCORE';
+export const UPDATE_ASSERTS = 'UPDATE_ASSERTS';
+export const CLEAR_STATE = 'CLEAR_STATE';

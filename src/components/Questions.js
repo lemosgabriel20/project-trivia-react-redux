@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { updateScore } from '../redux/actions';
+import { updateScore, updateAssertions } from '../redux/actions';
 
 class Questions extends Component {
   state = {
@@ -38,6 +38,7 @@ class Questions extends Component {
     const { timer } = this.state;
     const { id } = evt.target;
     if (id === 'correct-answer') {
+      dispatch(updateAssertions());
       const factor = 10;
       const diffString = {
         hard: 3, medium: 2, easy: 1,
@@ -51,7 +52,6 @@ class Questions extends Component {
   render() {
     const { category, question, correctAnswer } = this.props;
     const { showAnswer, answersSorted, hasTime, timer } = this.state;
-    console.log(answersSorted);
     return (
       <div>
         <h1 data-testid="question-category">{ category }</h1>
