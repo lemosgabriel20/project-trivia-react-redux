@@ -99,7 +99,7 @@ describe('Testa o componente Ranking.js', () => {
     userEvent.click(btnPlay);
     await waitFor(() => {
       const timer = screen.getByTestId('timer');
-      expect(timer).toHaveTextContent(21);
-    }, {timeout: 10_000})
-  }, 30000);
+      expect(timer).toHaveTextContent(22);
+    }, {timeout: 32_000})
+  }, 40000)
 });

@@ -17,13 +17,6 @@ class Questions extends Component {
     const answersUnsorted = [...incorrectAnswers, correctAnswer];
     this.setState({
       answersSorted: answersUnsorted.sort(() => Math.random() - randomNumber),
-    }, () => {
-      const { answersSorted } = this.state;
-      if (answersUnsorted === answersSorted) {
-        this.setState({
-          answersSorted: answersUnsorted.sort(() => Math.random() - randomNumber),
-        });
-      }
     });
     const second = 1000;
     this.myTimer = setInterval(() => {
