@@ -22,7 +22,7 @@ describe('Testa o componente Ranking.js', () => {
       const category = screen.getByTestId('question-category');
       
       expect(category).toBeInTheDocument();
-    }, 4000);
+    }, {timeout: 4000});
   })
   it('Teste se os componentes são renderizados', async () => {
     const { history } = renderWithRouterAndRedux(<App />);
@@ -31,7 +31,7 @@ describe('Testa o componente Ranking.js', () => {
     })
     await waitFor(() => {
       expect(history.location.pathname).toBe('/');
-    }, 2000);
+    }, {timeout: 2000});
   })
   it('Teste botão Next', async () => {
     const { history } = renderWithRouterAndRedux(<App />);
@@ -51,7 +51,7 @@ describe('Testa o componente Ranking.js', () => {
       userEvent.click(next);
       const secQbtn = screen.getAllByRole('button');
       expect(firstQbtn[0]).not.toBe(secQbtn[0]);
-    }, 2000);
+    }, {timeout: 2000});
   })
   it('Teste dos botões de pergunts e o localStorage "ranking"', async () => {
     const { history } = renderWithRouterAndRedux(<App />);
@@ -87,10 +87,9 @@ describe('Testa o componente Ranking.js', () => {
       userEvent.click(screen.getByTestId('btn-next'));
 
       expect(history.location.pathname).toBe('/feedback');
-    }, 2000);
+    }, {timeout: 2000});
   });
-
-  it('Teste do timer', async () => {
+  it('Teste se timer decrementa', async () => {
     const { history } = renderWithRouterAndRedux(<App />);
     const nameInput = screen.getByTestId('input-player-name');
     const emailInput = screen.getByTestId('input-gravatar-email');
@@ -98,10 +97,9 @@ describe('Testa o componente Ranking.js', () => {
     userEvent.type(nameInput, "teste");
     userEvent.type(emailInput, "teste@teste.com");
     userEvent.click(btnPlay);
-    jest.setTimeout(4000);
     await waitFor(() => {
       const timer = screen.getByTestId('timer');
-      expect(timer).toHaveTextContent(302);
-    }, {timeout: 1000})
-  })
+      expect(timer).toHaveTextContent(22);
+    }, {timeout: 32_000})
+  }, 40000)
 });
